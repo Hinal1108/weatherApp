@@ -1,0 +1,18 @@
+.dashboard {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    flex: 10;
+}
+
+.leftPanel {
+    display: flex;
+    flex: 3;
+}
+
+.rightPanel {
+    display: flex;
+    flex: 7;
+}
