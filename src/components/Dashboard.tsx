@@ -7,7 +7,8 @@ interface DashboardProps {
 }
 
 interface DashboardState {
-    location: string
+    location: string,
+    currentTemperature: number|null
 }
 
 interface IPlacesData {
@@ -26,14 +27,14 @@ const placesData: IPlacesData[] = [{
     forecast: "Mostly Coludy",
     highTemp: 30,
     lowTemp: 21
-},{
+}, {
     locationName: "Hyderabad",
     currentTime: "16:20",
     temperature: 29,
     forecast: "Mostly Coludy",
     highTemp: 30,
     lowTemp: 21
-},{
+}, {
     locationName: "Hyderabad",
     currentTime: "16:20",
     temperature: 29,
@@ -46,7 +47,8 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
     constructor(props: DashboardProps) {
         super(props);
         this.state = {
-            location: ""
+            location: "",
+            currentTemperature: null
         }
     }
     componentDidMount(): void {
@@ -54,21 +56,26 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
     }
     getWeatherData = async (location: string) => {
         const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=6e785234f113443582465107222504&q=${location}&aqi=no`);
-        const movies = await response.json();
-        console.log(movies);
+        const weatherData = await response.json();
+        this.setState({
+            currentTemperature:weatherData.current.temp_c
+        })
+        console.log(weatherData);
     }
     render() {
         let favourites = placesData.map((place: IPlacesData) => {
             return <div className="favouritePlace">
                 <div className="leftFav">
                     <div>{place.locationName}</div>
-                    <div>{place.currentTime}</div>
-                    <div>{place.forecast}</div>
+                    <div className="currentTime">{place.currentTime}</div>
+                    <div className="forecast">{place.forecast}</div>
                 </div>
                 <div className="rightFav">
-                    <div>{place.temperature}</div>
-                    <div>{place.highTemp}</div>
-                    <div>{place.lowTemp}</div>
+                    <div className="temperature">{place.temperature}</div>
+                    <div className="HLTemp">
+                        <div>H:{place.highTemp}</div>
+                        <div>L:{place.lowTemp}</div>
+                    </div>
                 </div>
             </div>
         })
@@ -78,13 +85,21 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
                 {favourites}
             </div>
             <div className="rightPanel">
-                <div></div>
-                <div className="searchBar">
-                    <SearchBox placeholder="Search" onChanged={(newValue: string) => { this.setState({ location: newValue }) }} className="searchField" />
-                    <PrimaryButton text="Search" onClick={() => {
-                        console.log(this.state.location);
-                        this.getWeatherData(this.state.location);
-                    }} />
+                <div className="searchBarParent">
+                    <div></div>
+                    <div className="searchBar">
+                        <SearchBox placeholder="Search" onChanged={(newValue: string) => { this.setState({ location: newValue }) }} className="searchField" />
+                        <PrimaryButton text="Search" onClick={() => {
+                            console.log(this.state.location);
+                            this.getWeatherData(this.state.location);
+                        }} />
+                    </div>
+                </div>
+                <div className="currentForecast">
+                    <p>{this.state.location}</p>
+                        <h1>
+                            {this.state.currentTemperature}
+                        </h1>
                 </div>
             </div>
 

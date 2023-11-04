@@ -16,8 +16,8 @@
 }
 
 .rightPanel {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
     flex: 8;
 }
 
@@ -36,4 +36,38 @@
     padding: 10px;
     border-radius: 5px;
     justify-content: space-between;
+}
+
+.currentTime {
+    font-size: x-small;
+}
+
+.forecast {
+    font-size: smaller;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.temperature {
+    font-size: 40px;
+    margin-top: -10px;
+    color: white;
+}
+
+.HLTemp{
+    display: flex;
+    column-gap: 5px;
+    font-size: small;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.searchBarParent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.currentForecast {
+    justify-content: center;
+    display: flex;
 }
